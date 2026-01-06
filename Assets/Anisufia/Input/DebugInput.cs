@@ -1,0 +1,101 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+using TMPro;
+
+public class DebugInput : MonoBehaviour
+{
+    private enum EInputDeviceType
+    {
+        None = 0,
+        KeyboardMouse,
+        Gamepad,
+    }
+
+    [SerializeField] private TextMeshProUGUI _debugText = default;
+
+    InputControl control;
+
+    EInputDeviceType _currentInputDevice;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        control = new InputControl();
+
+        if (control == null) return;
+
+        control.Enable();
+
+        control.Player.Move.performed += Move_performed;
+        control.Player.Aim.performed += Aim_performed;
+        control.Player.Fire.performed += Fire_performed;
+        control.Player.Mine.performed += Mine_performed;
+    }
+
+    private void Move_performed(InputAction.CallbackContext context)
+    {
+        SetInputDevice(context.control.device);
+
+        var inputAxis = context.ReadValue<Vector2>();
+        Debug.Log($"Move : {inputAxis}");
+    }
+
+    private void Aim_performed(InputAction.CallbackContext context)
+    {
+        SetInputDevice(context.control.device);
+
+        var inputAxis = context.ReadValue<Vector2>();
+        Debug.Log($"Aim : {inputAxis}");
+    }
+
+    private void Mine_performed(InputAction.CallbackContext context)
+    {
+        SetInputDevice(context.control.device);
+
+        Debug.Log("OnMine");
+    }
+
+    private void Fire_performed(InputAction.CallbackContext context)
+    {
+        SetInputDevice(context.control.device);
+
+        Debug.Log("OnFire");
+    }
+
+    /// <summary>
+    /// 使用するデバイスをセット
+    /// </summary>
+    /// <param name="inputDevice"></param>
+    private void SetInputDevice(InputDevice inputDevice)
+    {
+        if (inputDevice == null) return;
+
+        if (inputDevice is  Keyboard || inputDevice is Mouse)
+        {
+            _currentInputDevice = EInputDeviceType.KeyboardMouse;
+        }
+        else if (inputDevice is Gamepad)
+        {
+            _currentInputDevice = EInputDeviceType.Gamepad;
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Debug.Log($"現在使用中のデバイス : {_currentInputDevice.ToString()}");
+
+        var str = "";
+
+        if (_currentInputDevice == EInputDeviceType.KeyboardMouse)
+        {
+            str = "キーボード/マウス";
+        }
+        else if (_currentInputDevice == EInputDeviceType.Gamepad)
+        {
+            str = "XBoxコントローラー";
+        }
+
+        _debugText.text = str;
+    }
+}
