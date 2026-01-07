@@ -78,7 +78,7 @@ public class DebugInput : MonoBehaviour
         ES3.LoadInto<EZSaveTest>("DebugEZSave", saveData);
 
 
-        Debug.Log($"V : {saveData.v} , S : {saveData.s}");
+        //Debug.Log($"V : {saveData.v} , S : {saveData.s}");
     }
 
     /// <summary>
