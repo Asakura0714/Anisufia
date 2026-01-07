@@ -1,0 +1,9 @@
+{
+	"DebugEZSave" : {
+		"__type" : "EZSaveTest,Assembly-CSharp",
+		"value" : {
+			"v" : 1000,
+			"s" : "ガハハ"
+		}
+	}
+}

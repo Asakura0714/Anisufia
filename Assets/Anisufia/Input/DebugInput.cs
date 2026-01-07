@@ -2,6 +2,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 
+public class EZSaveTest
+{
+    public int v = 0;
+    public string s = "トラ！";
+}
+
 public class DebugInput : MonoBehaviour
 {
     private enum EInputDeviceType
@@ -14,6 +20,8 @@ public class DebugInput : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _debugText = default;
 
     InputControl control;
+
+    EZSaveTest eZSaveTest = new();
 
     EInputDeviceType _currentInputDevice;
 
@@ -30,6 +38,12 @@ public class DebugInput : MonoBehaviour
         control.Player.Aim.performed += Aim_performed;
         control.Player.Fire.performed += Fire_performed;
         control.Player.Mine.performed += Mine_performed;
+
+
+        eZSaveTest.v = 1000;
+        eZSaveTest.s = "ガハハ";
+
+        ES3.Save<EZSaveTest>("DebugEZSave", eZSaveTest);   
     }
 
     private void Move_performed(InputAction.CallbackContext context)
@@ -45,21 +59,26 @@ public class DebugInput : MonoBehaviour
         SetInputDevice(context.control.device);
 
         var inputAxis = context.ReadValue<Vector2>();
-        Debug.Log($"Aim : {inputAxis}");
+        //Debug.Log($"Aim : {inputAxis}");
     }
 
     private void Mine_performed(InputAction.CallbackContext context)
     {
         SetInputDevice(context.control.device);
 
-        Debug.Log("OnMine");
+        //Debug.Log("OnMine");
     }
 
     private void Fire_performed(InputAction.CallbackContext context)
     {
         SetInputDevice(context.control.device);
 
-        Debug.Log("OnFire");
+
+        var saveData = new EZSaveTest();
+        ES3.LoadInto<EZSaveTest>("DebugEZSave", saveData);
+
+
+        Debug.Log($"V : {saveData.v} , S : {saveData.s}");
     }
 
     /// <summary>
@@ -83,7 +102,7 @@ public class DebugInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log($"現在使用中のデバイス : {_currentInputDevice.ToString()}");
+        //Debug.Log($"現在使用中のデバイス : {_currentInputDevice.ToString()}");
 
         var str = "";
 
