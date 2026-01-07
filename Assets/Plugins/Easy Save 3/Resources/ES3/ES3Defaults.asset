@@ -41,6 +41,8 @@ MonoBehaviour:
     - SingularityGroup.HotReload.Runtime.Public
     - StompyRobot.SRDebugger
     - StompyRobot.SRF
+    - UniRx
+    - UniRx.Examples
     - UniTask
     - UniTask.Addressables
     - UniTask.DOTween

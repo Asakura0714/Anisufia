@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using TMPro;
 using Cysharp.Threading.Tasks;
 using System;
+using UniRx;
 
 public class EZSaveTest
 {
@@ -45,7 +46,8 @@ public class DebugInput : MonoBehaviour
         eZSaveTest.v = 1000;
         eZSaveTest.s = "ƒKƒnƒn";
 
-        ES3.Save<EZSaveTest>("DebugEZSave", eZSaveTest);   
+        ES3.Save<EZSaveTest>("DebugEZSave", eZSaveTest);
+
     }
 
     private void Move_performed(InputAction.CallbackContext context)
