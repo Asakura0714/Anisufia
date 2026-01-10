@@ -1,7 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour
+public class InputManager : ManagerBase
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,14 +15,9 @@ public class InputManager : MonoBehaviour
         
     }
 
-    public void Setup()
+    public override void Setup()
     {
         //base.Setup();
         Debug.Log("InputManager Setup");
-    }
-
-    public void GetInputInfo()
-    {
-        Debug.Log("InputManager GetInputInfo");
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AnisphiaMainSystem : MonoBehaviour
@@ -12,6 +13,14 @@ public class AnisphiaMainSystem : MonoBehaviour
     /// </summary>
     public static AnisphiaMainSystem Instance { get; private set; }
 
+    public enum EManagerType
+    {
+        Input,
+        SaveData,
+    }
+
+    private Dictionary<EManagerType, ManagerBase> _managerMap = new Dictionary<EManagerType, ManagerBase>();
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void AppEntryPoint()
     {
@@ -25,8 +34,9 @@ public class AnisphiaMainSystem : MonoBehaviour
 
     private void Setup()
     {
-        //TODO : セーブデータを読み込む
-        //TODO : Inputdataを読み込む
+        CreateManager<InputManager>(EManagerType.Input);
+        CreateManager<SaveDataManager>(EManagerType.SaveData);
+
 
         Application.quitting += AppQuit;
 
@@ -34,8 +44,36 @@ public class AnisphiaMainSystem : MonoBehaviour
         AppInitialized = true;
     }
 
-    private static void AppQuit()
+    private void CreateManager<T>(EManagerType type)where T : ManagerBase
     {
+        //クラス名をオブジェクト名に設定
+        var go = new GameObject(typeof(T).Name);
+        if (go == null) return;
 
+        //クラス生成
+        ManagerBase manaBase = go.AddComponent<T>();
+        if (manaBase == null) return;
+
+        //初期化開始
+        manaBase.Setup();
+
+        //子供として設定
+        manaBase.transform.SetParent(this.transform);
+
+        //全体で保持
+        DontDestroyOnLoad(go);
+
+        //管理
+        _managerMap.Add(type, manaBase);
+    }
+
+    private void AppQuit()
+    {
+        _managerMap.Clear();
+
+        if (Instance != null)
+        {
+            Instance = null;
+        }
     }
 }
