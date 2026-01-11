@@ -31,22 +31,6 @@ public class DebugInput : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        control = new InputControl();
-
-        if (control == null) return;
-
-        control.Enable();
-
-        control.Player.Move.performed += Move_performed;
-        control.Player.Aim.performed += Aim_performed;
-        control.Player.Fire.performed += Fire_performed;
-        control.Player.Mine.performed += Mine_performed;
-
-
-        eZSaveTest.v = 1000;
-        eZSaveTest.s = "ƒKƒnƒn";
-
-        ES3.Save<EZSaveTest>("DebugEZSave", eZSaveTest);
 
     }
 

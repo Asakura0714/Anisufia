@@ -13,13 +13,12 @@ public class AnisphiaMainSystem : MonoBehaviour
     /// </summary>
     public static AnisphiaMainSystem Instance { get; private set; }
 
-    public enum EManagerType
-    {
-        Input,
-        SaveData,
-    }
+    public SaveDataManager SaveDataManager { get; private set; }
 
-    private Dictionary<EManagerType, ManagerBase> _managerMap = new Dictionary<EManagerType, ManagerBase>();
+    public InputManager InputManager { get; private set; }
+
+    public SettingManager SettingManager { get; private set; }
+    public SoundManager SoundManager { get; private set; }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void AppEntryPoint()
@@ -34,9 +33,10 @@ public class AnisphiaMainSystem : MonoBehaviour
 
     private void Setup()
     {
-        CreateManager<InputManager>(EManagerType.Input);
-        CreateManager<SaveDataManager>(EManagerType.SaveData);
-
+        InputManager = CreateManager<InputManager>() as InputManager;
+        SaveDataManager = CreateManager<SaveDataManager>()as SaveDataManager;
+        SoundManager = CreateManager<SoundManager>() as SoundManager;
+        SettingManager = CreateManager<SettingManager>() as SettingManager;
 
         Application.quitting += AppQuit;
 
@@ -44,36 +44,38 @@ public class AnisphiaMainSystem : MonoBehaviour
         AppInitialized = true;
     }
 
-    private void CreateManager<T>(EManagerType type)where T : ManagerBase
+    /// <summary>
+    /// マネージャーを生成
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="type"></param>
+    private ManagerBase CreateManager<T>()where T : ManagerBase
     {
         //クラス名をオブジェクト名に設定
         var go = new GameObject(typeof(T).Name);
-        if (go == null) return;
-
+        
         //クラス生成
         ManagerBase manaBase = go.AddComponent<T>();
-        if (manaBase == null) return;
-
+        
         //初期化開始
         manaBase.Setup();
-
-        //子供として設定
-        manaBase.transform.SetParent(this.transform);
 
         //全体で保持
         DontDestroyOnLoad(go);
 
-        //管理
-        _managerMap.Add(type, manaBase);
+        return manaBase;
     }
 
     private void AppQuit()
     {
-        _managerMap.Clear();
-
         if (Instance != null)
         {
             Instance = null;
         }
+
+        InputManager.OnDelete();
+        SaveDataManager.OnDelete();
+        SoundManager.OnDelete();
+        SettingManager.OnDelete();
     }
 }
