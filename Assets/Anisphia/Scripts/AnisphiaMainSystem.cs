@@ -1,3 +1,4 @@
+using Anis.Scene;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,7 +19,10 @@ public class AnisphiaMainSystem : MonoBehaviour
     public InputManager InputManager { get; private set; }
 
     public SettingManager SettingManager { get; private set; }
+
     public SoundManager SoundManager { get; private set; }
+
+    public SceneManager SceneManager { get; private set; }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void AppEntryPoint()
@@ -37,7 +41,9 @@ public class AnisphiaMainSystem : MonoBehaviour
         SaveDataManager = CreateManager<SaveDataManager>()as SaveDataManager;
         SoundManager = CreateManager<SoundManager>() as SoundManager;
         SettingManager = CreateManager<SettingManager>() as SettingManager;
+        SceneManager = CreateManager<SceneManager>() as SceneManager;
 
+        //アプリ終了時にコール
         Application.quitting += AppQuit;
 
         //神、準備完了
@@ -77,5 +83,11 @@ public class AnisphiaMainSystem : MonoBehaviour
         SaveDataManager.OnDelete();
         SoundManager.OnDelete();
         SettingManager.OnDelete();
+        SceneManager.OnDelete();
+    }
+
+    private void Update()
+    {
+        InputManager.OnUpdate();
     }
 }

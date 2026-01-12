@@ -3,22 +3,16 @@ using UnityEngine.InputSystem;
 
 public class PlayerTank : TankBase
 {
+    private void Start()
+    {
+        Setup();
+    }
     public override void Setup()
     {
         base.Setup();
 
         //ëÄçÏèÓïÒÇÉZÉbÉg
-        AnisphiaMainSystem.Instance.InputManager.SetBindPlayerInput(OnMove, OnAim, OnFire, OnMine);
-    }
-
-    private void OnMove(InputAction.CallbackContext actionMove)
-    {
-        OnMove();
-    }
-
-    private void OnAim(InputAction.CallbackContext actionAim)
-    {
-        OnAim();
+        AnisphiaMainSystem.Instance.InputManager.SetBindPlayerInput(OnMove,OnAim,OnFire, OnMine);
     }
 
     private void OnFire(InputAction.CallbackContext actionFire)
@@ -31,21 +25,31 @@ public class PlayerTank : TankBase
         OnMine();
     }
 
-    protected override void OnMove()
+    protected override void OnMove(Vector2 moveDir)
     {
-        base.OnMove();
+        if (moveDir != Vector2.zero)
+        {
+            Debug.Log($"{moveDir}");
+            base.OnMove(moveDir);
+        }
     }
-    protected override void OnAim()
+    protected override void OnAim(Vector2 moveDir)
     {
-        base.OnAim();
+        if (moveDir != Vector2.zero)
+        {
+            base.OnAim(moveDir);
+            //Debug.Log("Player Aim");
+        }
     }
 
     protected override void OnFire()
     {
         base.OnFire();
+        //Debug.Log("Player Fire");
     }
     protected override void OnMine()
     {
         base.OnMine();
+        //Debug.Log("Player Mine");
     }
 }

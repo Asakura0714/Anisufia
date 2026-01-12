@@ -11,6 +11,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Anisphia/Scene/Boot.unity
     guid: b30bc3bac76ec5d4d88c4ee634a0c18b
+  - enabled: 1
+    path: Assets/Anisphia/Scene/Title.unity
+    guid: 5bf850a55e75d174c88acfe3bf8f7d72
+  - enabled: 1
+    path: Assets/Anisphia/Scene/StageSelect.unity
+    guid: 7fb1baf8c4e853b4f882e5962196f722
+  - enabled: 1
+    path: Assets/Anisphia/Scene/MainGame.unity
+    guid: de7371989905b6c4e84a0c8e5717e5ee
   m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 684c5374781d55f438793ed427f29427, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

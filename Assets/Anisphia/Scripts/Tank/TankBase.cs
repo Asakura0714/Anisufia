@@ -7,10 +7,10 @@ public class TankBase : MonoBehaviour
 
     }
 
-    protected virtual void OnMove()
+    protected virtual void OnMove(Vector2 moveDir)
     {
     }
-    protected virtual void OnAim()
+    protected virtual void OnAim(Vector2 aimiDir)
     {
     }
 
