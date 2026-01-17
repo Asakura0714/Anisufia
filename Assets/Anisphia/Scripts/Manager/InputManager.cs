@@ -1,6 +1,4 @@
 using System;
-using Unity.VisualScripting;
-using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -75,7 +73,7 @@ namespace Anis.Input
             if (Moveflg)
             {
                 Vector2 axis = _control.Player.Move.ReadValue<Vector2>();
-                _playerMove.Invoke(axis);
+                _playerMove?.Invoke(axis);
             }
 
             //ƒvƒŒƒCƒ„[‚ÌAim“ü—Í‚ğŠÄ‹‚·‚é
@@ -83,7 +81,7 @@ namespace Anis.Input
             if (AimFlg)
             {
                 Vector2 axis = _control.Player.Aim.ReadValue<Vector2>();
-                _playerAim.Invoke(axis);
+                _playerAim?.Invoke(axis);
             }
         }
     }

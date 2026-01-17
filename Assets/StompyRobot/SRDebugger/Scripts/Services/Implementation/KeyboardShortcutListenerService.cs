@@ -26,7 +26,7 @@ namespace SRDebugger.Services.Implementation
             _shortcuts = new List<Settings.KeyboardShortcut>(Settings.Instance.KeyboardShortcuts);
 
 #if ENABLE_INPUT_SYSTEM
-
+            
             foreach (var s in _shortcuts)
             {
                 // Cache the actual keycode so we don't have to use strings each time we want to use it.

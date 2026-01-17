@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/Anisphia/Scene/Boot.unity
     guid: b30bc3bac76ec5d4d88c4ee634a0c18b
   - enabled: 1
