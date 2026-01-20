@@ -1,6 +1,7 @@
-using Anis.Scene;
 using Anis.Input;
+using Anis.Scene;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AnisphiaMainSystem : MonoBehaviour
@@ -45,7 +46,7 @@ public class AnisphiaMainSystem : MonoBehaviour
         SceneManager = CreateManager<SceneManager>() as SceneManager;
 
         //アプリ終了時にコール
-        Application.quitting += AppQuit;
+        Application.quitting += AppQuitting;
 
         //神、準備完了
         AppInitialized = true;
@@ -73,7 +74,7 @@ public class AnisphiaMainSystem : MonoBehaviour
         return manaBase;
     }
 
-    private void AppQuit()
+    private void AppQuitting()
     {
         if (Instance != null)
         {
@@ -85,6 +86,15 @@ public class AnisphiaMainSystem : MonoBehaviour
         SoundManager.OnDelete();
         SettingManager.OnDelete();
         SceneManager.OnDelete();
+    }
+
+    public void AppQuit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;//ゲームプレイ終了
+#else
+        Application.Quit();//ゲームプレイ終了
+#endif
     }
 
     private void Update()

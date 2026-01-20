@@ -13,6 +13,8 @@ public class InspectorCommentDrawer : Editor
     {
         //ï\é¶èÄîı
         DrawDescription();
+
+        base.OnInspectorGUI();
     }
 
     /// <summary>
