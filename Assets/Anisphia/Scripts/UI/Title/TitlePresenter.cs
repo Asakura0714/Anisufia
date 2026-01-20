@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class TitlePresenter : MonoBehaviour
 {
-    [SerializeField] private TitleView  _titleView = default;
+    [SerializeField] private TitleView  _view = default;
 
     void Start()
     {
-        _titleView.OnClickStageSelectAction += OnClickStageSelect;
-        _titleView.OnClickSettingAction += OnClickSettting;
-        _titleView.OnClickExitAction += OnClickGameExit;
+        _view.OnClickStageSelectAction += OnClickStageSelect;
+        _view.OnClickSettingAction += OnClickSettting;
+        _view.OnClickExitAction += OnClickGameExit;
 
-        _titleView.Init();
+        _view.Init();
     }
 
 
