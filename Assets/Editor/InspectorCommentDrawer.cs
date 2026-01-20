@@ -1,20 +1,22 @@
-using ES3Types;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using static InspectorDescriptionAttribute;
 
+/// <summary>
+/// インスペクターの描画
+/// </summary>
 [CustomEditor(typeof(MonoBehaviour), true)]
 public class InspectorCommentDrawer : Editor
 {
     public override void OnInspectorGUI()
     {
+        //表示準備
         DrawDescription();
-        base.OnInspectorGUI();
     }
 
     /// <summary>
-    /// インスペクターにコメントを表示する
+    /// インスペクターに説明文を表示するための準備
     /// </summary>
     private void DrawDescription()
     {
@@ -28,8 +30,11 @@ public class InspectorCommentDrawer : Editor
         //タイプ変換
         MessageType msgType = GetMessageType(attr.DescriptionType);
 
+        //HelpBoxの作成
         EditorGUILayout.HelpBox(attr.Description, msgType);
-        EditorGUILayout.Space();
+
+        //間を開ける
+        EditorGUILayout.Space(10);
     }
 
     /// <summary>

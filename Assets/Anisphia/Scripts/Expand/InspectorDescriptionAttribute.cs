@@ -1,6 +1,8 @@
 using System;
-using static InspectorDescriptionAttribute;
 
+/// <summary>
+/// ‘®«‚ÌDataƒNƒ‰ƒX
+/// </summary>
 [AttributeUsage(AttributeTargets.Class, Inherited = false)]
 public class InspectorDescriptionAttribute : Attribute
 {
@@ -11,8 +13,14 @@ public class InspectorDescriptionAttribute : Attribute
         Error
     }
 
+    /// <summary>
+    /// •\¦‚·‚é•¶š—ñ
+    /// </summary>
     public string Description { get; private set; }
 
+    /// <summary>
+    /// Log‚Ìí—Ş
+    /// </summary>
     public EDescriptionType DescriptionType { get; private set; }
 
     public InspectorDescriptionAttribute(string inDescription, EDescriptionType inType)

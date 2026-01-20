@@ -3,6 +3,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerTank : TankBase
 {
+    private enum EMoveState
+    {
+        Idle,   //待機
+        InputCalc,//計算
+        Rotate,//回転
+        Move//移動
+    }
+
     private void Start()
     {
         Setup();
@@ -12,7 +20,7 @@ public class PlayerTank : TankBase
         base.Setup();
 
         //操作情報をセット
-        AnisphiaMainSystem.Instance.InputManager.SetBindPlayerInput(OnMove,OnAim,OnFire, OnMine);
+        AnisphiaMainSystem.Instance.InputManager.SetBindPlayerInput(OnMove,OnAim,OnFire,OnMine);
     }
 
     private void OnFire(InputAction.CallbackContext actionFire)
