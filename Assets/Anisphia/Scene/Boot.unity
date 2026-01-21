@@ -119,6 +119,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &43510362
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 43510364}
+  - component: {fileID: 43510363}
+  m_Layer: 0
+  m_Name: BootScene
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &43510363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43510362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 112455414b674f040a3e23ee82cf9d00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _presenter: {fileID: 309496448}
+--- !u!4 &43510364
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43510362}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 390, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &102728860
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -129,7 +174,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 53926269075896773, guid: 14371d735431b1544b5f39113ad3172e, type: 3}
       propertyPath: m_Name
-      value: CommonButton (1)
+      value: B_OK
       objectReference: {fileID: 0}
     - target: {fileID: 3227299305310641733, guid: 14371d735431b1544b5f39113ad3172e, type: 3}
       propertyPath: m_Color.b
@@ -521,7 +566,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 53926269075896773, guid: 14371d735431b1544b5f39113ad3172e, type: 3}
       propertyPath: m_Name
-      value: CommonButton (2)
+      value: NoController
       objectReference: {fileID: 0}
     - target: {fileID: 3227299305310641733, guid: 14371d735431b1544b5f39113ad3172e, type: 3}
       propertyPath: m_Color.b
@@ -825,7 +870,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 1448540591}
+  m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &505293928
@@ -1412,7 +1457,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1234464226}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac6dc6e28ba0b0f49975f4b5a1c0670c, type: 3}
   m_Name: 
@@ -1459,7 +1504,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 53926269075896773, guid: 14371d735431b1544b5f39113ad3172e, type: 3}
       propertyPath: m_Name
-      value: CommonButton
+      value: A_OK
       objectReference: {fileID: 0}
     - target: {fileID: 3227299305310641733, guid: 14371d735431b1544b5f39113ad3172e, type: 3}
       propertyPath: m_Color.b
@@ -1574,11 +1619,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14371d735431b1544b5f39113ad3172e, type: 3}
---- !u!1 &1448540591 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 53926269075896773, guid: 14371d735431b1544b5f39113ad3172e, type: 3}
-  m_PrefabInstance: {fileID: 1434750006}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1448540592 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4512951670391658164, guid: 14371d735431b1544b5f39113ad3172e, type: 3}
@@ -1589,7 +1629,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9013486055328932013, guid: 14371d735431b1544b5f39113ad3172e, type: 3}
   m_PrefabInstance: {fileID: 1434750006}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448540591}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b9c0a5623b07e543aa718a25fec04b6, type: 3}
@@ -1760,3 +1800,4 @@ SceneRoots:
   - {fileID: 309496445}
   - {fileID: 505293928}
   - {fileID: 1234464228}
+  - {fileID: 43510364}

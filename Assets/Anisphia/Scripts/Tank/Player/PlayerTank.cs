@@ -10,11 +10,6 @@ public class PlayerTank : TankBase
         Rotate,//‰ñ“]
         Move//ˆÚ“®
     }
-
-    private void Start()
-    {
-        Setup();
-    }
     public override void Setup()
     {
         base.Setup();

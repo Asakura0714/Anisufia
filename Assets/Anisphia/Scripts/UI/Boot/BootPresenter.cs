@@ -1,15 +1,17 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class BootPresenter : MonoBehaviour
+public class BootPresenter : PresenterBase
 {
     [SerializeField] private BootView _view = default;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void InitPresenter()
     {
         _view.OnClickToTitle += ToTitle;
 
-        _view.Init();
+        _view.InitView();
+
+        EventSystem.current.SetSelectedGameObject(_view.FirstSelectedGameObject().gameObject);
     }
 
     private void ToTitle()

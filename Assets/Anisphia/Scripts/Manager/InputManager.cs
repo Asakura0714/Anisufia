@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,19 +15,32 @@ namespace Anis.Input
         Gamepad,
     }
 
+    public enum EEnableInputType
+    {
+        Player,
+        UI
+    }
+
     public class InputManager : ManagerBase
     {
         private InputControl _control;
 
-        private Action<Vector2> _playerMove;
-        private Action<Vector2> _playerAim;
+        private Action<Vector2> _playerMoveAction;
+        private Action<Vector2> _playerAimAction;
+        private Action<InputAction.CallbackContext> _playerFireAction;
+        private Action<InputAction.CallbackContext> _playerMineAction;
+        private Action<InputAction.CallbackContext> _playerPauseAction;
 
         public EDeviceType CurrentDevice { get; private set; }
 
         public override void Setup()
         {
             _control = new InputControl();
-            SetEnable(true);
+
+            _control.Player.Fire.performed  += (content => _playerFireAction?.Invoke(content));
+            _control.Player.Mine.performed  += (content => _playerMineAction?.Invoke(content));
+            _control.Player.Pause.performed += (content => _playerPauseAction?.Invoke(content));
+
         }
 
         public void SetBindPlayerInput(Action<Vector2> moveAxis,
@@ -34,30 +48,70 @@ namespace Anis.Input
                                        Action<InputAction.CallbackContext> actionFire,
                                        Action<InputAction.CallbackContext> actionMine)
         {
-            if (_control == null) return;
+            if (_control == null)
+            {
+                return;
+            }
 
-            _playerMove += moveAxis;
-            _playerAim += aimAxis;
+            //スティックとか十字キーのBind
+            _playerMoveAction = moveAxis;
 
-            //プレイヤーの挙動をセット
-            var player = _control.Player;
-            player.Fire.performed += actionFire; 
-            player.Mine.performed += actionMine;
+            //Aiｍ
+            _playerAimAction = aimAxis;
+
+            //FIre
+            _playerFireAction = actionFire;
+
+            //Mine
+            _playerMineAction = actionMine;
+
+        }
+
+        public void SetBindPause(Action<InputAction.CallbackContext> actionPause)
+        {
+            if (_control == null)
+            {
+                return;
+            }
+
+            //Bindを全てを全て削除
+            if (_playerPauseAction != null)
+            {
+                _playerPauseAction = null;
+            }
+
+            //PauseをBind
+            _playerPauseAction += actionPause;
         }
 
         /// <summary>
-        /// 
+        /// 有効タイプを設定
         /// </summary>
         /// <param name="enable"></param>
-        public void SetEnable(bool enable)
+        public void SetEnableInputAction(EEnableInputType type)
         {
-            if (enable)
+            switch (type)
             {
-                _control.Enable();
-            }
-            else
-            {
-                _control.Disable();
+                case EEnableInputType.Player:
+                    {
+                        //プレイヤーの操作を有効
+                        _control.Player.Enable();
+
+                        //UIの操作を無効
+                        _control.UI.Disable();
+                    }
+                    break;
+                case EEnableInputType.UI:
+                    {
+                        //プレイヤーの操作を無効
+                        _control.Player.Disable();
+
+                        //UIの操作を有効
+                        _control.UI.Enable();
+                    }
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -73,7 +127,7 @@ namespace Anis.Input
             if (Moveflg)
             {
                 Vector2 axis = _control.Player.Move.ReadValue<Vector2>();
-                _playerMove?.Invoke(axis);
+                _playerMoveAction?.Invoke(axis);
             }
 
             //プレイヤーのAim入力を監視する
@@ -81,7 +135,7 @@ namespace Anis.Input
             if (AimFlg)
             {
                 Vector2 axis = _control.Player.Aim.ReadValue<Vector2>();
-                _playerAim?.Invoke(axis);
+                _playerAimAction?.Invoke(axis);
             }
         }
     }

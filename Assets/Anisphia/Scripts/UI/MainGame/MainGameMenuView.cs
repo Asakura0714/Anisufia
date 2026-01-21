@@ -1,13 +1,13 @@
 using System;
 using UnityEngine;
 
-public class MainGameView : MonoBehaviour
+public class MainGameMenuView : ViewBase
 {
     [SerializeField] private AnisButtonBase _quitBtn = default;
 
     public Action OnClickQuitAction;
 
-    public void Init()
+    public override void InitView()
     {
         _quitBtn.Init(OnClickQuitAction);
     }

@@ -4,19 +4,19 @@ using UnityEngine.UI;
 
 public class AnisButtonBase : MonoBehaviour
 {
-    private Button _myButton;
+    public Button MyButton {  get; private set; }
 
     public Action OnClick;
 
     public void Init(Action onClick)
     {
-        _myButton = GetComponent<Button>();
+        MyButton = GetComponent<Button>();
 
-        if(_myButton == null)
+        if(MyButton == null)
         {
             return;
         }
 
-        _myButton.onClick.AddListener(() => onClick?.Invoke());
+        MyButton.onClick.AddListener(() => onClick?.Invoke());
     }
 }
