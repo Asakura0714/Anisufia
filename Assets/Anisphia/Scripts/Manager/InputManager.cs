@@ -74,14 +74,7 @@ namespace Anis.Input
                 return;
             }
 
-            //Bind‚ğ‘S‚Ä‚ğ‘S‚Äíœ
-            if (_playerPauseAction != null)
-            {
-                _playerPauseAction = null;
-            }
-
-            //Pause‚ğBind
-            _playerPauseAction += actionPause;
+            _playerPauseAction = actionPause;
         }
 
         /// <summary>

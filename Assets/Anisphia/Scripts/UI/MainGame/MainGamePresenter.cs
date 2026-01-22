@@ -9,83 +9,50 @@ public class MainGamePresenter : MonoBehaviour
     [SerializeField] private MainGameMenuView _menuView = default;
     [SerializeField] private PauseView _pauseView = default;
 
+    public Action<InputAction.CallbackContext> OnClickPauseAction;
+    public Action OnClickResumeAction;
+    public Action OnClickRetryAction;
+    public Action OnClickStageSelectAction;
+    public Action OnClickSettingAction;
+    public Action OnClickQuitGame;
+
+    public GameObject GetSelectedGameObject => _pauseView.FirstSelectedGameObject().gameObject;
+
     public void Init()
     {
-
-
         EventSystem.current.SetSelectedGameObject(null);
 
-        BindsPause();
+        //ポーズを開く
+        AnisphiaMainSystem.Instance.InputManager.SetBindPause(OnClickPauseAction);
 
-        _pauseView.InitView();
-        _pauseView.SetActiveView(false);
-
-        _menuView.OnClickQuitAction += OnQuit;
-
-        _menuView.InitView();
-
-    }
-
-    private void OnClickResumeAction()
-    {
-        Debug.Log("ゲーム再開");
-
-        _pauseView.SetActiveView(false);
-
-        //PlayerのInputActionを有効にする
-        AnisphiaMainSystem.Instance.InputManager.SetEnableInputAction(EEnableInputType.Player);
-    }
-
-    private void OnClickRetryAction()
-    {
-        Debug.Log("ゲームやり直し");
-        AnisphiaMainSystem.Instance.SceneManager.LoadScene(Anis.Scene.SceneManager.ESceneType.MainGame);
-    }
-
-    private void OnClickSelectStage()
-    {
-        Debug.Log("ステージ選択へ");
-
-        //ステージ選択へ
-        AnisphiaMainSystem.Instance.SceneManager.LoadScene(Anis.Scene.SceneManager.ESceneType.StageSelect);
-    }
-
-    private void OnClickSettingAction()
-    {
-        Debug.Log("設定画面を開くよ");
-    }
-
-    public void OnPause(InputAction.CallbackContext pauseContext)
-    {
-        Debug.Log("ポーズ");
-
-        //ポーズON
-        _pauseView.SetActiveView(true);
-
-        //ポーズを開いた時にFocusを行う
-        EventSystem.current.SetSelectedGameObject(_pauseView.FirstSelectedGameObject().gameObject);
-
-        //UIのInputActionを有効にする
-        AnisphiaMainSystem.Instance.InputManager.SetEnableInputAction(EEnableInputType.UI);
-    }
-
-    private void OnQuit()
-    {
-        AnisphiaMainSystem.Instance.AppQuit();
-    }
-
-    private void BindsPause()
-    {
         //ゲーム再開
-        _pauseView.OnClickResumeAction += OnClickResumeAction;
+        _pauseView.OnClickResumeAction = () => OnClickResumeAction?.Invoke(); ;
 
         //ゲームやりおなし
-        _pauseView.OnClickRetryAction += OnClickRetryAction;
+        _pauseView.OnClickRetryAction = () => OnClickRetryAction?.Invoke();
 
         //ステージ選択へ
-        _pauseView.OnClickStageSelectAction += OnClickSelectStage;
+        _pauseView.OnClickStageSelectAction = () => OnClickStageSelectAction?.Invoke(); ;
 
         //設定画面へ
-        _pauseView.OnClickSettingAction += OnClickSettingAction;
+        _pauseView.OnClickSettingAction = () => OnClickSettingAction?.Invoke();
+
+        //ゲーム終了
+        _menuView.OnClickQuitAction = () => OnClickQuitGame?.Invoke();
+
+        _pauseView.InitView();
+        _menuView.InitView();
+
+        //ポーズ画面を非表示
+        SetActivePauseScreen(false);
+    }
+
+    /// <summary>
+    /// Pause画面の表示切り替え
+    /// </summary>
+    /// <param name="isActive"></param>
+    public void SetActivePauseScreen(bool isActive)
+    {
+        _pauseView.SetActiveView(isActive);
     }
 }

@@ -1,5 +1,7 @@
 using Anis.Input;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class SceneMainGame : SceneBase
 {
@@ -15,13 +17,115 @@ public class SceneMainGame : SceneBase
     {
         _playerTank.Setup();
 
-        //ポーズをセット
-        AnisphiaMainSystem.Instance.InputManager.SetBindPause(_uiPresenter.OnPause);
-
         //Playerの操作情報はBinidしたので、Playerへ切り替える
         AnisphiaMainSystem.Instance.InputManager.SetEnableInputAction(EEnableInputType.Player);
+
+        _uiPresenter.OnClickPauseAction = OnPause;
+        _uiPresenter.OnClickResumeAction = OnResume;
+        _uiPresenter.OnClickRetryAction = OnRetry;
+        _uiPresenter.OnClickStageSelectAction = OnSelectStage;
+        _uiPresenter.OnClickSettingAction = OnSetting;
+
+        //デバッグ用の処理
+        _uiPresenter.OnClickSettingAction = () =>
+        {
+            AnisphiaMainSystem.Instance.AppQuit();
+        };
 
         //UI初期化
         _uiPresenter.Init();
     }
+
+    /// <summary>
+    /// ゲームの進行を止める
+    /// </summary>
+    /// <param name="isStop"></param>
+    public void SetGameTimeScale(bool isStop)
+    {
+        Time.timeScale = isStop ? 0f : 1f;
+    }
+
+    #region Pause
+
+    /// <summary>
+    /// ポーズ中
+    /// </summary>
+    /// <param name="pauseContext"></param>
+    private void OnPause(InputAction.CallbackContext pauseContext)
+    {
+        Debug.Log("ポーズ");
+
+        //UIのInputActionを有効にする
+        AnisphiaMainSystem.Instance.InputManager.SetEnableInputAction(EEnableInputType.UI);
+
+        //ポーズ画面表示
+        _uiPresenter.SetActivePauseScreen(true);
+
+        //ゲームを停止
+        SetGameTimeScale(true);
+
+        //ポーズを開いた時にFocusを行う
+        EventSystem.current.SetSelectedGameObject(_uiPresenter.GetSelectedGameObject);
+    }
+
+    /// <summary>
+    /// ゲーム再開
+    /// </summary>
+    private void OnResume()
+    {
+        Debug.Log("ゲーム再開");
+
+        //ポーズ画面非表示
+        _uiPresenter.SetActivePauseScreen(false);
+
+        //ゲームを停止
+        SetGameTimeScale(false);
+
+        //PlayerのInputActionを有効にする
+        AnisphiaMainSystem.Instance.InputManager.SetEnableInputAction(EEnableInputType.Player);
+    }
+
+    /// <summary>
+    /// ゲームやりおなし
+    /// </summary>
+    private void OnRetry()
+    {
+        Debug.Log("ゲームやり直し");
+
+        //ポーズ画面非表示
+        _uiPresenter.SetActivePauseScreen(false);
+
+        //ゲームを停止
+        SetGameTimeScale(false);
+
+        AnisphiaMainSystem.Instance.SceneManager.LoadScene(Anis.Scene.SceneManager.ESceneType.MainGame);
+    }
+
+    /// <summary>
+    /// ステージ選択画面へ
+    /// </summary>
+    private void OnSelectStage()
+    {
+        Debug.Log("ステージ選択へ");
+
+        //ポーズ画面非表示
+        _uiPresenter.SetActivePauseScreen(false);
+
+        //ゲームを停止
+        SetGameTimeScale(false);
+
+        //ステージ選択へ
+        AnisphiaMainSystem.Instance.SceneManager.LoadScene(Anis.Scene.SceneManager.ESceneType.StageSelect);
+    }
+
+    /// <summary>
+    /// 設定画面を開く
+    /// </summary>
+    private void OnSetting()
+    {
+        Debug.Log("設定画面を開くよ");
+    }
+
+    #endregion
+
 }
