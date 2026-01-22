@@ -26,6 +26,8 @@ public class AnisphiaMainSystem : MonoBehaviour
 
     public SceneManager SceneManager { get; private set; }
 
+    public CommonUIManager CommonUIManager { get; private set; }
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void AppEntryPoint()
     {
@@ -44,6 +46,7 @@ public class AnisphiaMainSystem : MonoBehaviour
         SoundManager = CreateManager<SoundManager>() as SoundManager;
         SettingManager = CreateManager<SettingManager>() as SettingManager;
         SceneManager = CreateManager<SceneManager>() as SceneManager;
+        CommonUIManager = CreateManager<CommonUIManager>() as CommonUIManager;
 
         //アプリ終了時にコール
         Application.quitting += AppQuitting;
@@ -86,6 +89,7 @@ public class AnisphiaMainSystem : MonoBehaviour
         SoundManager.OnDelete();
         SettingManager.OnDelete();
         SceneManager.OnDelete();
+        CommonUIManager.OnDelete();
     }
 
     public void AppQuit()
