@@ -18,9 +18,9 @@ public class ScreenTransition : MonoBehaviour
 
     private Image[] _imageList;
 
-    public Action FadeComplateAction;
+    private Action FadeComplateAction;
 
-    public void Setup(EFadeType type)
+    public void Setup(EFadeType type,Action OnComplate)
     {
         _imageList = GetComponentsInChildren<Image>();
 
@@ -39,14 +39,19 @@ public class ScreenTransition : MonoBehaviour
             image.transform.localScale = scale;
             image.color = _imageColor;
         }
+
+        if (OnComplate != null)
+        {
+            FadeComplateAction = OnComplate;
+        }
     }
 
-    public void OnStart()
+    public void OnStart(EFadeType type)
     {
-        //StartCoroutine(ScaleAnimetion());
+        ScaleAnimetion(type);
     }
 
-    public void ScaleAnimetion(EFadeType type)
+    private void ScaleAnimetion(EFadeType type)
     {
         float target = type == EFadeType.FadeOut ? 1f : 0f;
 

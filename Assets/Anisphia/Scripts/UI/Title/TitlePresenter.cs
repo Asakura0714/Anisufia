@@ -1,33 +1,20 @@
+using System;
 using UnityEngine;
 
-public class TitlePresenter : MonoBehaviour
+public class TitlePresenter : PresenterBase
 {
     [SerializeField] private TitleView  _view = default;
 
-    void Start()
+    public Action OnStageSelectAction;
+    public Action OnSettingAction;
+    public Action OnGameExitAction;
+
+    public override void InitPresenter()
     {
-        _view.OnClickStageSelectAction += OnClickStageSelect;
-        _view.OnClickSettingAction += OnClickSettting;
-        _view.OnClickExitAction += OnClickGameExit;
+        _view.OnClickStageSelectAction = () => OnStageSelectAction?.Invoke();
+        _view.OnClickSettingAction += () => OnSettingAction?.Invoke();
+        _view.OnClickExitAction += () =>  OnGameExitAction?.Invoke();
 
         _view.Init();
-    }
-
-
-    private void OnClickStageSelect()
-    {
-        Debug.Log("ステージ選択");
-        AnisphiaMainSystem.Instance.SceneManager.LoadScene(Anis.Scene.SceneManager.ESceneType.StageSelect);
-    }
-
-    private void OnClickSettting()
-    {
-        Debug.Log("設定画面");
-    }
-    private void OnClickGameExit()
-    {
-        Debug.Log("ゲームを終了します");
-
-        AnisphiaMainSystem.Instance.AppQuit();
     }
 }
