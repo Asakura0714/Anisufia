@@ -421,7 +421,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 279882929}
   m_CullTransparentMesh: 1
---- !u!1001 &303957577
+--- !u!1001 &474597614
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -429,46 +429,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1012887531}
     m_Modifications:
-    - target: {fileID: 320318718055975827, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 998681836062625162, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1746864813371198876, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1968252737864748599, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2420968379219324471, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4251804137749413924, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4909691618422765349, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5141322240852038535, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5345293673550950688, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5417522858750327419, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5950190923102718161, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -553,40 +513,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TranaitionController
       objectReference: {fileID: 0}
-    - target: {fileID: 6197879194718365070, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6412822565439607314, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7932966555094505410, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8224939903995636076, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8623779530512884398, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8662525854444664113, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
---- !u!224 &303957578 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5950190923102718161, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
-  m_PrefabInstance: {fileID: 303957577}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &475990617
 GameObject:
   m_ObjectHideFlags: 0
@@ -818,7 +749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _presenter: {fileID: 1324928318}
-  screenTransition: {fileID: 1996833982}
+  _fadeController: {fileID: 1585094134}
 --- !u!4 &888635636
 Transform:
   m_ObjectHideFlags: 0
@@ -1067,7 +998,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1324928316}
-  - {fileID: 303957578}
+  - {fileID: 1585094135}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1283,6 +1214,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b9c0a5623b07e543aa718a25fec04b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1585094134 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8209559672361121850, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
+  m_PrefabInstance: {fileID: 474597614}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9613469410175441aa76eb8689f275b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!224 &1585094135 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5950190923102718161, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
+  m_PrefabInstance: {fileID: 474597614}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1616366580 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 53926269075896773, guid: 14371d735431b1544b5f39113ad3172e, type: 3}
@@ -1302,17 +1249,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b9c0a5623b07e543aa718a25fec04b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1996833982 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1528443467294605537, guid: 41e6bcd0b7503c440922b9e9b8c241c9, type: 3}
-  m_PrefabInstance: {fileID: 303957577}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c16dfa9da22ed084a8543fa13bbbe0aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2022776368

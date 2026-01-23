@@ -4,7 +4,8 @@ public class SceneTitle : SceneBase
 {
     [SerializeField] private TitlePresenter _presenter = default;
 
-    [SerializeField] private ScreenTransition screenTransition = default;
+    //[SerializeField] private ScreenTransition _fadeIn = default;
+    [SerializeField] private TransitionController _fadeController = default;
 
     public override void Awake()
     {
@@ -19,12 +20,7 @@ public class SceneTitle : SceneBase
         _presenter.OnSettingAction = OnClickSettting;
         _presenter.OnGameExitAction = OnClickGameExit;
 
-        //—v’²®‚­‚Á‚»‚í‚©‚è‚É‚­‚¢
-        screenTransition.Setup(ScreenTransition.EFadeType.FadeIn,
-                       () =>
-                       {
-
-                       });
+        _fadeController.FadeIn.Setup();
     }
 
     private void OnClickStageSelect()
@@ -37,8 +33,10 @@ public class SceneTitle : SceneBase
     {
         Debug.Log("Ý’è‰æ–Ê");
 
-
-        screenTransition.OnStart(ScreenTransition.EFadeType.FadeOut);
+        _fadeController.FadeIn.PlayTranssition(() =>
+        {
+            Invoke("ToStage", 3f);
+        });
     }
 
     private void OnClickGameExit()
@@ -46,5 +44,17 @@ public class SceneTitle : SceneBase
         Debug.Log("ƒQ[ƒ€‚ðI—¹‚µ‚Ü‚·");
 
         AnisphiaMainSystem.Instance.AppQuit();
+    }
+
+    private void ToStage()
+    {
+        _fadeController.FadeIn.gameObject.SetActive(false);
+
+        _fadeController.FadeOut.Setup();
+
+        _fadeController.FadeOut.PlayTranssition(() =>
+        {
+            //_fadeController.FadeOut.enabled = false;
+        });
     }
 }

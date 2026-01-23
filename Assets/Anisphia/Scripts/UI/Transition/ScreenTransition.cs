@@ -4,6 +4,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
+using System.Collections.Generic;
 
 public class ScreenTransition : MonoBehaviour
 {
@@ -13,53 +15,67 @@ public class ScreenTransition : MonoBehaviour
         FadeOut
     }
 
-    [SerializeField] private Color _imageColor = Color.red;
+    [SerializeField] private Color _transitionColor = Color.red;
     [SerializeField] private float _scaleTime = 1f;
+    [SerializeField] private EFadeType _fadeType = EFadeType.FadeIn;
 
-    private Image[] _imageList;
+    private List<Image> _imageList;
 
-    private Action FadeComplateAction;
+    /// <summary>
+    /// フェード初期目標の透明度を取得
+    /// </summary>
+    private float StartScaleY => (_fadeType == EFadeType.FadeOut) ? 1f : 0f;
 
-    public void Setup(EFadeType type,Action OnComplate)
+    /// <summary>
+    /// フェード目標のアルファ値を取得
+    /// </summary>
+    private float TargetScaleY => (_fadeType == EFadeType.FadeIn) ? 1f : 0f;
+
+    public void Setup()
     {
-        _imageList = GetComponentsInChildren<Image>();
+        _imageList = GetComponentsInChildren<Image>().ToList();
 
-        if (_imageList.Length <= 0)
+        if (_imageList.Count <= 0)
         {
             Debug.LogError("トランジションのImage取得に失敗しました");
             return;
         }
 
-        float target = type == EFadeType.FadeOut ? 1f : 0f;
-
         foreach (var image in _imageList)
         {
-            var scale = image.transform.localScale;
-            scale.y = target;
-            image.transform.localScale = scale;
-            image.color = _imageColor;
-        }
+            //Fadeの色を変更
+            image.color = _transitionColor;
 
-        if (OnComplate != null)
-        {
-            FadeComplateAction = OnComplate;
+            //初期スケール値をセット
+            image.transform.localScale = new Vector3(1f, StartScaleY, 1f);
         }
     }
 
-    public void OnStart(EFadeType type)
+    /// <summary>
+    /// トランジション開始
+    /// </summary>
+    public void PlayTranssition(Action onComplate)
     {
-        ScaleAnimetion(type);
-    }
+        if(_imageList.Count <= 0)
+        {
+            return;
+        }
 
-    private void ScaleAnimetion(EFadeType type)
-    {
-        float target = type == EFadeType.FadeOut ? 1f : 0f;
+        //シーケンスを定義
+        DG.Tweening.Sequence fadeSequence = DOTween.Sequence();
 
         foreach (var image in _imageList)
         {
-            image.transform.DOScaleY(target, _scaleTime)
-                           .SetEase(Ease.InOutSine)
-                           .OnComplete(() => FadeComplateAction?.Invoke());
+            fadeSequence.Join(image.transform
+                        .DOScaleY(TargetScaleY, _scaleTime))
+                        .SetEase(Ease.InOutSine);
+
         }
+
+        //全ての処理が終わったらコール
+        fadeSequence.OnComplete(() =>
+        {
+            onComplate?.Invoke();
+        });
     }
 }
