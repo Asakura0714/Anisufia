@@ -21,6 +21,7 @@ EditorBuildSettings:
     path: Assets/Anisphia/Scene/MainGame.unity
     guid: de7371989905b6c4e84a0c8e5717e5ee
   m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 55ca0e76cf593e0489546df60ed5b755, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 684c5374781d55f438793ed427f29427, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

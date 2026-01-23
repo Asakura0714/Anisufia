@@ -1,4 +1,6 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class CommonUIManager : ManagerBase
 {
@@ -8,9 +10,17 @@ public class CommonUIManager : ManagerBase
     private Canvas _sceneCanvas;
     private Canvas _dialoagCanvas;
 
+
+
     public override void Setup()
     {
+
+        //Instantiate()
+
         //FindCanvas();
+
+
+        LoadTransition();
     }
     public override void OnUpdate()
     {
@@ -37,5 +47,25 @@ public class CommonUIManager : ManagerBase
 
         var go2 = GameObject.FindGameObjectWithTag(DIALOG_CANVAS_TAG_NAME);
         _dialoagCanvas = go2.GetComponent<Canvas>();
+    }
+
+    public async void LoadTransition()
+    {
+        var a = Addressables.LoadAssetAsync<GameObject>("BBB");
+
+        GameObject obj = await a.ToUniTask();
+
+        if (obj != null)
+        {
+            //Canvas can = obj.GetComponent<Canvas>();
+            //can.renderMode = RenderMode.ScreenSpaceOverlay;
+            //can.worldCamera = Camera.main;
+
+            //obj.name = "DEBUG_Transition";
+
+            var b = Instantiate(obj);
+
+            DontDestroyOnLoad(b);
+        }
     }
 }

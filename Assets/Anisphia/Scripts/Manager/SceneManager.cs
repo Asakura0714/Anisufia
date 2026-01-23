@@ -2,8 +2,6 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using static Anis.Scene.SceneManager;
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
 namespace Anis.Scene
