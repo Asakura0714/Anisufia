@@ -10,7 +10,7 @@ public class CommonUIManager : ManagerBase
     private Canvas _sceneCanvas;
     private Canvas _dialoagCanvas;
 
-
+    private TransitionController _transitionController;
 
     public override void Setup()
     {
@@ -51,21 +51,28 @@ public class CommonUIManager : ManagerBase
 
     public async void LoadTransition()
     {
-        var a = Addressables.LoadAssetAsync<GameObject>("BBB");
+        var handle = Addressables.LoadAssetAsync<GameObject>("Tranaition_prefab");
 
-        GameObject obj = await a.ToUniTask();
-
-        if (obj != null)
+        GameObject prefab = await handle.ToUniTask();
+        if (prefab == null)
         {
-            //Canvas can = obj.GetComponent<Canvas>();
-            //can.renderMode = RenderMode.ScreenSpaceOverlay;
-            //can.worldCamera = Camera.main;
-
-            //obj.name = "DEBUG_Transition";
-
-            var b = Instantiate(obj);
-
-            DontDestroyOnLoad(b);
+            return;
         }
+
+        var obj = Instantiate(prefab);
+        if (obj == null)
+        {
+            return;
+        }
+
+        Canvas canvas = obj.GetComponent<Canvas>();
+        DontDestroyOnLoad(canvas);
+
+        _transitionController = obj.GetComponent<TransitionController>();
+        _transitionController.FadeIn.Setup();
+        _transitionController.FadeIn.PlayTranssition(() =>
+        {
+            Debug.Log("フェードアウト");
+        });
     }
 }

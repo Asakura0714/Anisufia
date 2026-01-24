@@ -15,13 +15,8 @@ MonoBehaviour:
   m_GroupName: Transition
   m_GUID: 68e75c21edb30c145b226bddb1c138f8
   m_SerializeEntries:
-  - m_GUID: c8acb610876210d4485ca4518bad859d
-    m_Address: BBB
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ea9638d4c309c3c4e8b567aab04942d2
-    m_Address: AAACanvas_prefab
+  - m_GUID: 96f453a5b3cab6c45a2107a0880b678e
+    m_Address: Tranaition_prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -3,9 +3,8 @@ using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using Unity.VisualScripting;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class ScreenTransition : MonoBehaviour
 {
@@ -18,6 +17,7 @@ public class ScreenTransition : MonoBehaviour
     [SerializeField] private Color _transitionColor = Color.red;
     [SerializeField] private float _scaleTime = 1f;
     [SerializeField] private EFadeType _fadeType = EFadeType.FadeIn;
+    [SerializeField] private Ease _easeType = Ease.OutExpo;
 
     private List<Image> _imageList;
 
@@ -68,7 +68,7 @@ public class ScreenTransition : MonoBehaviour
         {
             fadeSequence.Join(image.transform
                         .DOScaleY(TargetScaleY, _scaleTime))
-                        .SetEase(Ease.InOutSine);
+                        .SetEase(_easeType);
 
         }
 
