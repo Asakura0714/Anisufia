@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -19,8 +20,7 @@ public class CommonUIManager : ManagerBase
 
         //FindCanvas();
 
-
-        LoadTransition();
+        //LoadTransition().Forget();
     }
     public override void OnUpdate()
     {
@@ -49,11 +49,9 @@ public class CommonUIManager : ManagerBase
         _dialoagCanvas = go2.GetComponent<Canvas>();
     }
 
-    public async void LoadTransition()
+    public async UniTask LoadTransition()
     {
-        var handle = Addressables.LoadAssetAsync<GameObject>("Tranaition_prefab");
-
-        GameObject prefab = await handle.ToUniTask();
+        GameObject prefab = await Addressables.LoadAssetAsync<GameObject>("Tranaition_prefab");
         if (prefab == null)
         {
             return;
@@ -68,11 +66,9 @@ public class CommonUIManager : ManagerBase
         Canvas canvas = obj.GetComponent<Canvas>();
         DontDestroyOnLoad(canvas);
 
-        _transitionController = obj.GetComponent<TransitionController>();
-        _transitionController.FadeIn.Setup();
-        _transitionController.FadeIn.PlayTranssition(() =>
-        {
-            Debug.Log("フェードアウト");
-        });
+        //_transitionController = obj.GetComponent<TransitionController>();
+        //_transitionController.FadeIn.Setup();
+        //_transitionController.FadeIn.PlayTranssition(() =>
+        //{};
     }
 }

@@ -43,8 +43,6 @@ namespace Anis.Scene
 
         public async UniTask ChangeSceneAync(ESceneType sceneType)
         {
-
-
             await UnitySceneManager.LoadSceneAsync(GetSceneName(sceneType));
 
             await UniTask.Delay(TimeSpan.FromSeconds(10f));
