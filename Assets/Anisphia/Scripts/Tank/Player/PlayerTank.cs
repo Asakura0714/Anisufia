@@ -47,6 +47,8 @@ public class PlayerTank : TankBase
     {
         base.Setup();
 
+        _playerInput.Setup();
+
         //操作情報をセット
         AnisphiaMainSystem.Instance.InputManager.SetBindPlayerInput(OnMove,OnAim,OnFire,OnMine);
     }

@@ -15,10 +15,24 @@ public class PlayerTankInput : MonoBehaviour
     /// </summary>
     private float CursolMoveSpeed = 1000f;
 
+    private Transform _myTransform;
+    private Vector2 _cursorSize;
+
+    public void Setup()
+    {
+        _myTransform = _virtualMouseInput.cursorTransform;
+        var rectTrans = _virtualMouseInput.cursorTransform;
+
+        _cursorSize = new Vector2(rectTrans.rect.width / 2f, rectTrans.rect.height / 2f);
+    }
+
     public void MoveMouceCursol(Vector2 inputAxis)
     {
-        // 3. 移動量の計算
-        _virtualMouseInput.cursorTransform.position += GetCursolSpeed(inputAxis);
+        //移動量の計算
+        _myTransform.position += GetCursolSpeed(inputAxis);
+
+        //画面範囲外を調べる
+        SetScreenLimitPosition();
     }
 
     private Vector3 GetCursolSpeed(Vector2 inputAxis)
@@ -34,5 +48,18 @@ public class PlayerTankInput : MonoBehaviour
     public void SetSetActiveMouseCursor(bool isSetActive)
     {
         _virtualMouseInput.cursorGraphic.gameObject.SetActive(isSetActive);
+    }
+
+    private void SetScreenLimitPosition()
+    {
+        //マウスカーソルの半分の値を取得
+        float halfWidth = _cursorSize.x;
+        float halfHeight = _cursorSize.y;
+
+        //値の丸め込み
+        float clampedX = Mathf.Clamp(_myTransform.position.x, halfWidth, Screen.width - halfWidth);
+        float clampedY = Mathf.Clamp(_myTransform.position.y, halfHeight, Screen.height - halfHeight);
+
+        _myTransform.position = new Vector3(clampedX, clampedY, 0f);
     }
 }
