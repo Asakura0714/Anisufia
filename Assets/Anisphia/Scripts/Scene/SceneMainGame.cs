@@ -58,6 +58,9 @@ public class SceneMainGame : SceneBase
         //UIのInputActionを有効にする
         AnisphiaMainSystem.Instance.InputManager.SetEnableInputAction(EEnableInputType.UI);
 
+        //マウスカーソルを非表示
+        _playerTank.PlayerInput.SetSetActiveMouseCursor(false);
+
         //ポーズ画面表示
         _uiPresenter.SetActivePauseScreen(true);
 
@@ -74,6 +77,9 @@ public class SceneMainGame : SceneBase
     private void OnResume()
     {
         Debug.Log("ゲーム再開");
+
+        //マウスカーソルを表示
+        _playerTank.PlayerInput.SetSetActiveMouseCursor(true);
 
         //ポーズ画面非表示
         _uiPresenter.SetActivePauseScreen(false);

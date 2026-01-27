@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 
 namespace Anis.Input
 {
@@ -29,6 +30,8 @@ namespace Anis.Input
         private Action<InputAction.CallbackContext> _playerFireAction;
         private Action<InputAction.CallbackContext> _playerMineAction;
         private Action<InputAction.CallbackContext> _playerPauseAction;
+
+        private float _deadzone = 0.15f;
 
         public EDeviceType CurrentDevice { get; private set; }
 
@@ -116,19 +119,51 @@ namespace Anis.Input
         {
             //プレイヤーの移動入力を監視する
             bool Moveflg = _control.Player.Move.IsPressed();
-            if (Moveflg)
+            Vector2 leftAxis = _control.Player.Move.ReadValue<Vector2>();
+            if (Moveflg && IsOverDeadZone(leftAxis))
             {
-                Vector2 axis = _control.Player.Move.ReadValue<Vector2>();
-                _playerMoveAction?.Invoke(axis);
+                _playerMoveAction?.Invoke(leftAxis.normalized);
             }
 
-            //プレイヤーのAim入力を監視する
-            bool AimFlg = _control.Player.Aim.IsPressed();
-            if (AimFlg)
+            //放置だとnullになる
+            if (_control.Player.Aim.activeControl == null)
             {
-                Vector2 axis = _control.Player.Aim.ReadValue<Vector2>();
-                _playerAimAction?.Invoke(axis);
+                return;
             }
+
+            bool isMouse = _control.Player.Aim.activeControl.device is Mouse;
+
+            Vector2 rightAxis = _control.Player.Aim.ReadValue<Vector2>();
+            if (isMouse)
+            {
+                //プレイヤーの入力へ渡す
+                _playerAimAction?.Invoke(rightAxis.normalized);
+            }
+            else
+            {
+                //DeadZoneを超えないと弾く
+                if (IsOverDeadZone(rightAxis) == false)
+                {
+                    return;
+                }
+
+                //プレイヤーの入力へ渡す
+                _playerAimAction?.Invoke(rightAxis.normalized);
+            }
+        }
+
+
+        /// <summary>
+        /// 入力のDeadZoneを判定する
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <returns></returns>
+        private bool IsOverDeadZone(Vector2 axis)
+        {
+            bool isOverX = Mathf.Abs(axis.x) > _deadzone;
+            bool isOverY = Mathf.Abs(axis.y) > _deadzone;
+
+            return isOverX || isOverY;
         }
     }
 }

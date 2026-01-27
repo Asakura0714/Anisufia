@@ -9,7 +9,7 @@ public class ViewBase : MonoBehaviour
 
     public void SetActiveView(bool isActive)
     {
-        gameObject.SetActive(isActive);
+       gameObject.SetActive(isActive);
     }
 
     public virtual AnisButtonBase FirstSelectedGameObject() => null;

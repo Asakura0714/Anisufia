@@ -144,7 +144,7 @@ public partial class @InputControl: IInputActionCollection2, IDisposable
                     ""id"": ""e63d6bf0-4dad-4d3b-9ac5-2be4c25d2663"",
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
-                    ""processors"": ""StickDeadzone"",
+                    ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",
                     ""isComposite"": false,
@@ -208,7 +208,7 @@ public partial class @InputControl: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""fca631b8-f09b-4a5c-bcdf-44260cbf19d5"",
-                    ""path"": ""<Mouse>/position"",
+                    ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
