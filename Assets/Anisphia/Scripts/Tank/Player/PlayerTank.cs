@@ -2,11 +2,14 @@
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerTank : TankBase
 {
 
     [SerializeField] private PlayerTankInput _playerInput = default;
+
+    [SerializeField] private TextMeshProUGUI _textMeshProUGUI;
 
     public PlayerTankInput PlayerInput => _playerInput;
 
@@ -149,5 +152,18 @@ public class PlayerTank : TankBase
         var dirIndex = Mathf.RoundToInt(angle / splitAngle) % split;
 
         return ((EMoveDirection)dirIndex,angle);
+    }
+
+
+    public void Update()
+    {
+        if(AnisphiaMainSystem.Instance.InputManager.UseCurrentMouse)
+        {
+            _textMeshProUGUI.SetText("マウス/キーボードで操作中");
+        }
+        else
+        {
+            _textMeshProUGUI.SetText("コントローラーで操作中");
+        }
     }
 }

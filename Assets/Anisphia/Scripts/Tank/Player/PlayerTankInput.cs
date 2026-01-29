@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.InputSystem.Users;
 
 public class PlayerTankInput : MonoBehaviour
 {
@@ -8,7 +10,15 @@ public class PlayerTankInput : MonoBehaviour
     /// <summary>
     /// 基本は等倍※後で設定からここを操作して感度を変える
     /// </summary>
-    private float sensitivity = 1f;
+    /// 
+    [SerializeField]
+    private float _rightStickSensitivity = 1f;
+
+    [SerializeField]
+    private float _mauseSensitivity = 1f;
+
+    [SerializeField]
+    bool isMouce = false;
 
     /// <summary>
     /// ここは変更しない
@@ -17,27 +27,58 @@ public class PlayerTankInput : MonoBehaviour
 
     private Transform _myTransform;
     private Vector2 _cursorSize;
+    private Vector3 _lastMousePosition;
 
     public void Setup()
     {
         _myTransform = _virtualMouseInput.cursorTransform;
         var rectTrans = _virtualMouseInput.cursorTransform;
 
+       
         _cursorSize = new Vector2(rectTrans.rect.width / 2f, rectTrans.rect.height / 2f);
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
     }
+
 
     public void MoveMouceCursol(Vector2 inputAxis)
     {
-        //移動量の計算
-        _myTransform.position += GetCursolSpeed(inputAxis);
+        if (AnisphiaMainSystem.Instance.InputManager.UseCurrentMouse)
+        {
+            // 前フレームからの「移動量（Delta）」を計算
+            Vector2 mouseDelta = Input.mousePosition - _lastMousePosition;
 
-        //画面範囲外を調べる
-        SetScreenLimitPosition();
+            //移動量に感度反映
+            _myTransform.position += (Vector3)(mouseDelta * _mauseSensitivity);
+
+            //次フレームのために現在のマウス位置を記録（※Warp前を記録）
+            _lastMousePosition = Input.mousePosition;
+        }
+        else
+        {
+            //移動量の計算
+            _myTransform.position += GetCursolSpeed(inputAxis);
+        }
+
+        //画面範囲外をチェック
+        if (CheckScreenEdge())
+        {
+            //画面内に収める
+            SetScreenLimitPosition();
+        }
+
+        if (AnisphiaMainSystem.Instance.InputManager.UseCurrentMouse)
+        {
+            Mouse.current.WarpCursorPosition(_myTransform.position);
+
+            // Warpした後の位置を記録しておくことで、Warpによる移動をDeltaとして拾わないようにする
+            _lastMousePosition = _myTransform.position;
+        }
     }
 
     private Vector3 GetCursolSpeed(Vector2 inputAxis)
     {
-        var velo = inputAxis * sensitivity * CursolMoveSpeed * Time.deltaTime;
+        var velo = inputAxis * _rightStickSensitivity * CursolMoveSpeed * Time.deltaTime;
         return new Vector3(velo.x, velo.y, 0f);
     }
 
@@ -61,5 +102,13 @@ public class PlayerTankInput : MonoBehaviour
         float clampedY = Mathf.Clamp(_myTransform.position.y, halfHeight, Screen.height - halfHeight);
 
         _myTransform.position = new Vector3(clampedX, clampedY, 0f);
+    }
+
+    private bool CheckScreenEdge()
+    {
+        float x = _myTransform.position.x;
+        float y = _myTransform.position.y;
+        return x <= _cursorSize.x || x >= Screen.width - _cursorSize.x ||
+               y <= _cursorSize.y || y >= Screen.height - _cursorSize.y;
     }
 }

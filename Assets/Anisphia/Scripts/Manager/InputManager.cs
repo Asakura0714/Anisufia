@@ -1,4 +1,8 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
@@ -33,7 +37,7 @@ namespace Anis.Input
 
         private float _deadzone = 0.15f;
 
-        public EDeviceType CurrentDevice { get; private set; }
+        public bool UseCurrentMouse { get; private set; }
 
         public override void Setup()
         {
@@ -43,7 +47,26 @@ namespace Anis.Input
             _control.Player.Mine.performed  += (content => _playerMineAction?.Invoke(content));
             _control.Player.Pause.performed += (content => _playerPauseAction?.Invoke(content));
 
+            InputSystem.onActionChange += OnActionChange;
         }
+        private void OnActionChange(object obj, InputActionChange change)
+        {
+            // 1. まず「アクションが実行された瞬間」以外は無視する
+            if (change != InputActionChange.ActionPerformed) return;
+
+            // 2. 渡された obj が InputAction 型かどうかを安全に判定（キャストエラー防止）
+            if (obj is InputAction action)
+            {
+                // アクションを起こしたデバイスを取得
+                var device = action.activeControl?.device;
+
+                if (device == null) return;
+
+                // マウス/キーボード判定を更新
+                UseCurrentMouse = device is Mouse || device is Keyboard;
+            }
+        }
+
 
         public void SetBindPlayerInput(Action<Vector2> moveAxis,
                                        Action<Vector2> aimAxis,
@@ -125,16 +148,8 @@ namespace Anis.Input
                 _playerMoveAction?.Invoke(leftAxis.normalized);
             }
 
-            //放置だとnullになる
-            if (_control.Player.Aim.activeControl == null)
-            {
-                return;
-            }
-
-            bool isMouse = _control.Player.Aim.activeControl.device is Mouse;
-
             Vector2 rightAxis = _control.Player.Aim.ReadValue<Vector2>();
-            if (isMouse)
+            if (UseCurrentMouse)
             {
                 //プレイヤーの入力へ渡す
                 _playerAimAction?.Invoke(rightAxis.normalized);
@@ -151,7 +166,6 @@ namespace Anis.Input
                 _playerAimAction?.Invoke(rightAxis.normalized);
             }
         }
-
 
         /// <summary>
         /// 入力のDeadZoneを判定する
